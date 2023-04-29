@@ -129,9 +129,6 @@ Se o grupo for composto por alunos de turmas diferentes, os dois alunos deverão
 #include <limits.h>
 #include <string.h>
 
-#define NUM_BITS 128
-typedef unsigned char BigInt[NUM_BITS/8];
-
 /* Atribuição (com extensão) */
 void big_val(BigInt res, long val) {
     memset(res, 0, sizeof(BigInt));
@@ -154,7 +151,7 @@ int main() {
 
     // Teste 1: valor positivo menor que 128 bits
     big_val(res, 123456789);
-    printf("Teste 1: %s\n", memcmp(res, "\x15\xb2\x4e\x61\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+    printf("Teste 1: %s\n", memcmp(res, "\x15\xcd\x5b\x75\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 
     // Teste 2: valor positivo maior ou igual a 128 bits
     big_val(res, 0x1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF);
