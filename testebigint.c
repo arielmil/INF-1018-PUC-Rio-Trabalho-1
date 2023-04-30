@@ -129,26 +129,9 @@ Se o grupo for composto por alunos de turmas diferentes, os dois alunos deverão
 #include <limits.h>
 #include <string.h>
 
-/* Atribuição (com extensão) */
-void big_val(BigInt res, long val) {
-    memset(res, 0, sizeof(BigInt));
-    if (val >= 0) {
-        for (int i = 0; i < sizeof(long); i++) {
-            res[i] = (val >> (8*i)) & 0xFF;
-        }
-    } else {
-        for (int i = 0; i < sizeof(long); i++) {
-            res[i] = ((-val) >> (8*i)) & 0xFF;
-        }
-        for (int i = sizeof(long); i < sizeof(BigInt); i++) {
-            res[i] = 0xFF;
-        }
-    }
-}
-
 int main() {
     BigInt res;
-
+		
     // Teste 1: valor positivo
     big_val(res, 123456789);
     printf("Teste 1: %s\n", memcmp(res, "\x15\xcd\x5b\x75\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
