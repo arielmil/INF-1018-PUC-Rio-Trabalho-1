@@ -129,21 +129,63 @@ Se o grupo for composto por alunos de turmas diferentes, os dois alunos deverão
 #include <limits.h>
 #include <string.h>
 
-int main() {
-    BigInt res;
+/* big_val */
+void testes_big_val() {
+		printf("\nTestando função big_val:\n");
 		
-    // Teste 1: valor positivo
-    big_val(res, 123456789);
-    printf("Teste 1: %s\n", memcmp(res, "\x15\xcd\x5b\x75\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
-
-    // Teste 2: valor negativo
+	 	BigInt res;
+	 	
+	  // Teste 1 (valor negativo):
     big_val(res, 0x8FFFFFFFFFFFFFFF);
-    printf("Teste 2: %s\n", memcmp(res, "\xff\xff\xff\xff\xff\xff\xff\x8f\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+    printf("\tTeste 1: %s\n", memcmp(res, "\xff\xff\xff\xff\xff\xff\xff\x8f\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+        
+    // Teste 2 (valor positivo):
+    big_val(res, 123456789);
+    printf("\tTeste 2: %s\n", memcmp(res, "\x15\xcd\x5b\x07\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 
-    // Teste 3: 0
+    // Teste 3 (valor == 0):
     big_val(res, 0);
-    printf("Teste 3: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+    printf("\tTeste 3: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+    
+}
 
+/* big_comp_2 */
+void testes_big_comp2() {
+		printf("\nTestando função big_val:\n");
+		
+		long in;
+		
+		BigInt a;
+    BigInt res;
+    
+    /* extende in para 128 bits gerando o big_int a*/
+    in = 0x8FFFFFFFFFFFFFFF;
+    big_val(a, in);
+    
+	  // Teste 1 (valor negativo):
+    big_comp2(res, a);
+    printf("\tTeste 1: %s\n", memcmp(res, "\x01\x00\x00\x00\x00\x00\x00\x07\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+        
+    in = 123456789;
+    big_val(a, in);
+    
+    // Teste 2 (valor positivo):
+    big_comp2(res, a);
+    printf("\tTeste 2: %s\n", memcmp(res, "\xeb\x32\xa4\xf8\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+					
+		in = 0;
+    big_val(a, in);
+		
+    // Teste 3 (valor == 0):
+    big_comp2(res, a);
+    printf("\tTeste 3: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	
+}
+
+int main() {
+    
+    testes_big_val();
+    testes_big_comp2();
     
     return 0;
 }
