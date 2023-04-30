@@ -127,6 +127,7 @@ Se o grupo for composto por alunos de turmas diferentes, os dois alunos deverão
 
 #include <stdio.h>
 #include <stdint.h>
+#include "bigint.h"
 
 typedef struct {
   uint64_t low;

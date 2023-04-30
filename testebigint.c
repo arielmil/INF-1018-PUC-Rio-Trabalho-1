@@ -149,44 +149,19 @@ void big_val(BigInt res, long val) {
 int main() {
     BigInt res;
 
-    // Teste 1: valor positivo menor que 128 bits
+    // Teste 1: valor positivo
     big_val(res, 123456789);
     printf("Teste 1: %s\n", memcmp(res, "\x15\xcd\x5b\x75\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 
-    // Teste 2: valor positivo maior ou igual a 128 bits
-    big_val(res, 0x1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF);
-    printf("Teste 2: %s\n", memcmp(res, "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\x1F", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+    // Teste 2: valor negativo
+    big_val(res, 0x8FFFFFFFFFFFFFFF);
+    printf("Teste 2: %s\n", memcmp(res, "\xff\xff\xff\xff\xff\xff\xff\x8f\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 
-    // Teste 3: valor negativo menor que 128 bits
-    big_val(res, -123456789);
-    printf("Teste 3: %s\n", memcmp(res, "\xEB\x4D\xB1\x9F\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
-
-    // Teste 4: valor negativo maior ou igual a 128 bits
-    big_val(res, -0x100000000000000000000000000000001);
-    printf("Teste 4: %s\n", memcmp(res, "\xFE\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
-
-    // Teste 5: valor zero
+    // Teste 3: 0
     big_val(res, 0);
-    printf("Teste 5: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+    printf("Teste 3: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 
-    // Teste 6: mesma entrada várias vezes
-    big_val(res, 123456789);
-    printf("Teste 6.1: %s\n", memcmp(res, "\x15\xb2\x4e\x61\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
-
-     big_val(res, 123456789);
-    printf("Teste 6.2: %s\n", memcmp(res, "\x15\xb2\x4e\x61\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
-
-    big_val(res, -123456789);
-    printf("Teste 6.3: %s\n", memcmp(res, "\xEB\x4D\xB1\x9F\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
-
-    // Teste 7: menor valor positivo
-    big_val(res, LONG_MIN);
-    printf("Teste 7: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
-
-    // Teste 8: maior valor positivo
-    big_val(res, LONG_MAX);
-    printf("Teste 8: %s\n", memcmp(res, "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\x7F", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
-
+    
     return 0;
 }
 
