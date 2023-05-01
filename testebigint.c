@@ -160,21 +160,25 @@ void testes_big_comp2() {
     big_val(a, 0x8FFFFFFFFFFFFFFF);
     
 	  // Teste 1 (valor negativo):
+	  
     big_comp2(res, a);
+    
     printf("\tTeste 1: %s\n", memcmp(res, "\x01\x00\x00\x00\x00\x00\x00\x07\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
         
-    in = 123456789;
-    big_val(a, in);
+    big_val(a, 123456789);
     
     // Teste 2 (valor positivo):
+    
     big_comp2(res, a);
+    
     printf("\tTeste 2: %s\n", memcmp(res, "\xeb\x32\xa4\xf8\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 					
-		in = 0;
-    big_val(a, in);
+    big_val(a, 0);
 		
     // Teste 3 (valor == 0):
+    
     big_comp2(res, a);
+    
     printf("\tTeste 3: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
 }
@@ -189,11 +193,16 @@ void testes_big_sum() {
 	
 	// Teste 1 (a e b são negativos e a soma não da overflow):
 	
-	big_val(a, 0x8FFFFFFFFFFFFFFF);
-	big_val(a, 0x8FFFFFFFFFFFFFFF);
+	big_val(a, 0x8000000000000000);
+	big_val(b, 0x8000000000000001);
+	big_sum(res, a, b);
 	
 	// Teste 2 (a e b são negativos e a soma daria overflow):
-
+	
+	big_val(a, 0xFFFFFFFFFFFFFFFF);
+	big_val(b, 0xFFFFFFFFFFFFFFFF);
+	big_sum(res, a, b);
+	
 	// Teste 3 (a é 0):
 	
 	// Teste 3.1 (b é 0):
