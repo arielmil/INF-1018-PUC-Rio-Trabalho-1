@@ -197,7 +197,7 @@ void testes_big_sum() {
 	big_val(b, 0x8000000000000001);
 	big_sum(res, a, b);
 	
-	// Teste 2 (a e b são negativos e a soma daria overflow):
+	// Teste 2 (a e b são negativos e a soma da overflow):
 	
 	big_val(a, 0xFFFFFFFFFFFFFFFF);
 	big_val(b, 0xFFFFFFFFFFFFFFFF);
@@ -211,7 +211,9 @@ void testes_big_sum() {
 	
 	// Teste 4.1 (b é negativo):
 	
-	// Teste 5 (a e b são positivos):
+	// Teste 5 (a e b são positivos e a soma não da overflow):
+	
+	// Teste 5.1 (a e b são positivos e a soma da overflow):
 }
 
 /* big_sub */
@@ -224,7 +226,7 @@ void testes_big_sub() {
 	
 	// Teste 1 (a e b são negativos e a subtração não da overflow):
 		
-	// Teste 2 (a e b são negativos e a subtração daria overflow):
+	// Teste 2 (a e b são negativos e a subtração da overflow):
 
 	// Teste 3 (a é 0):
 	
@@ -234,7 +236,9 @@ void testes_big_sub() {
 	
 	// Teste 4.1 (b é negativo):
 	
-	// Teste 5 (a e b são positivos):
+	// Teste 5 (a e b são positivos e a soma não da overflow):
+	
+	// Teste 5.1 (a e b são positivos e a soma da overflow):
 	
 }
 
