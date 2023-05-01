@@ -151,16 +151,13 @@ void testes_big_val() {
 
 /* big_comp_2 */
 void testes_big_comp2() {
-		printf("\nTestando função big_val:\n");
-		
-		long in;
+		printf("\nTestando função big_comp2:\n");
 		
 		BigInt a;
     BigInt res;
     
-    /* extende in para 128 bits gerando o big_int a*/
-    in = 0x8FFFFFFFFFFFFFFF;
-    big_val(a, in);
+    /* extende 0x8FFFFFFFFFFFFFFF para 128 bits gerando o big_int a*/
+    big_val(a, 0x8FFFFFFFFFFFFFFF);
     
 	  // Teste 1 (valor negativo):
     big_comp2(res, a);
@@ -180,6 +177,85 @@ void testes_big_comp2() {
     big_comp2(res, a);
     printf("\tTeste 3: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
+}
+
+/* big_sum */
+void testes_big_sum() {
+	printf("\nTestando função big_sum:\n");
+	
+	BigInt a;
+	BigInt b;
+	BigInt res;
+	
+	// Teste 1 (a e b são negativos e a soma não da overflow):
+	
+	big_val(a, 0x8FFFFFFFFFFFFFFF);
+	big_val(a, 0x8FFFFFFFFFFFFFFF);
+	
+	// Teste 2 (a e b são negativos e a soma daria overflow):
+
+	// Teste 3 (a é 0):
+	
+	// Teste 3.1 (b é 0):
+	
+	// Teste 4 (a é negativo):
+	
+	// Teste 4.1 (b é negativo):
+	
+	// Teste 5 (a e b são positivos):
+}
+
+/* big_sub */
+void testes_big_sub() {
+	printf("\nTestando função big_sub:\n");
+	
+	BigInt a;
+	BigInt b;
+	BigInt res;
+	
+	// Teste 1 (a e b são negativos e a subtração não da overflow):
+		
+	// Teste 2 (a e b são negativos e a subtração daria overflow):
+
+	// Teste 3 (a é 0):
+	
+	// Teste 3.1 (b é 0):
+	
+	// Teste 4 (a é negativo):
+	
+	// Teste 4.1 (b é negativo):
+	
+	// Teste 5 (a e b são positivos):
+	
+}
+
+/* big_mul */
+void testes_big_mul() {
+	printf("\nTestando função big_mul:\n");
+	
+	BigInt a;
+	BigInt b;
+	BigInt res;
+	
+	// Teste 1 (a e b são negativos e a soma não da overflow):
+	
+	// Teste 2 (a e b são negativos e a soma daria overflow):
+
+	// Teste 3 (a é 0):
+	
+	// Teste 3.1 (b é 0):
+	
+	// Teste 4 (a é negativo e a multiplicação não da overflow):
+	
+	// Teste 4.1 (b é negativo e a multiplicação não da overflow):
+	
+	// Teste 5 (a é negativo e a multiplicação daria overflow):
+	
+	// Teste 5.1 (b é negativo e a multiplicação daria overflow):
+	
+	// Teste 6 (a e b são positivos e a multiplicação não da overflow):
+	
+	// Teste 7 (a e b são positivos e a multiplicação daria overflow):
 }
 
 int main() {
