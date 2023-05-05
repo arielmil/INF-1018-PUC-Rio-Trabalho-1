@@ -162,6 +162,9 @@ void testes_big_comp2() {
     
 	  // Teste 1 (valor negativo):
 	  
+	  //a   = FF FF FF FF FF FF FF FF 8F FF FF FF FF FF FF FF
+	  //res = 00 00 00 00 00 00 00 00 70 00 00 00 00 00 00 01
+	  
     big_comp2(res, a);
     
     printf("\tTeste 1: %s\n", memcmp(res, "\x01\x00\x00\x00\x00\x00\x00\x07\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
@@ -170,6 +173,9 @@ void testes_big_comp2() {
     
     // Teste 2 (valor positivo):
     
+    //a   = 00 00 00 00 00 00 00 00 00 00 00 00 07 5B CD 15
+    //res = FF FF FF FF FF FF FF FF FF FF FF FF F8 A4 32 EB
+    
     big_comp2(res, a);
     
     printf("\tTeste 2: %s\n", memcmp(res, "\xeb\x32\xa4\xf8\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
@@ -177,6 +183,9 @@ void testes_big_comp2() {
     big_val(a, 0);
 		
     // Teste 3 (valor == 0):
+    
+    //a   = 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    //res = 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
     
     big_comp2(res, a);
     
@@ -324,6 +333,61 @@ void testes_big_sum() {
 	big_sum(res, a, b);
 	
 	printf("\tTeste 5.1: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x89\xca\x5a\x57\xc9\x00\x78\x08", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	
+  // Teste 6 (a (positivo) + b (negativo) = 0):
+		
+	//a   = 04 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
+	//b   = FB CB AC 10 54 BA 9A BF 00 00 00 00 00 00 00 00
+	//res = 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+	
+  a[15] = 0X04, b[15] = 0XFB;
+  a[14] = 0X34, b[14] = 0XCB;
+  a[13] = 0X53, b[13] = 0XAC;
+  a[12] = 0XEF, b[12] = 0X10;
+  a[11] = 0XAB, b[11] = 0X54;
+  a[10] = 0X45, b[10] = 0XBA;
+  a[9] = 0X65,  b[9] = 0X9A;
+  a[8] = 0X41,  b[8] = 0XBF;
+  a[7] = 0X00,  b[7] = 0X00;
+  a[6] = 0X00,  b[6] = 0X00;
+  a[5] = 0X00,  b[5] = 0X00;
+  a[4] = 0X00,  b[4] = 0X00;
+  a[3] = 0X00,  b[3] = 0X00;
+  a[2] = 0X00,  b[2] = 0X00;
+  a[1] = 0X00,  b[1] = 0X00;
+  a[0] = 0X00,  b[0] = 0X00;
+
+	big_sum(res, a, b);
+	
+	printf("\tTeste 6: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+  
+  // Teste 6.1 (a (negativo) + b (positivo) = 0):
+		
+	//a   = FB CB AC 10 54 BA 9A BF 00 00 00 00 00 00 00 00
+	//b   = 04 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
+	//res = 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+	
+  b[15] = 0X04, a[15] = 0XFB;
+  b[14] = 0X34, a[14] = 0XCB;
+  b[13] = 0X53, a[13] = 0XAC;
+  b[12] = 0XEF, a[12] = 0X10;
+  b[11] = 0XAB, a[11] = 0X54;
+  b[10] = 0X45, a[10] = 0XBA;
+  b[9] = 0X65,  a[9] = 0X9A;
+  b[8] = 0X41,  a[8] = 0XBF;
+  b[7] = 0X00,  a[7] = 0X00;
+  b[6] = 0X00,  a[6] = 0X00;
+  b[5] = 0X00,  a[5] = 0X00;
+  b[4] = 0X00,  a[4] = 0X00;
+  b[3] = 0X00,  a[3] = 0X00;
+  b[2] = 0X00,  a[2] = 0X00;
+  b[1] = 0X00,  a[1] = 0X00;
+  b[0] = 0X00,  a[0] = 0X00;
+
+	big_sum(res, a, b);
+	
+	printf("\tTeste 6.1: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	
 }
 
 /* big_sub */
@@ -337,22 +401,18 @@ void testes_big_sub() {
 	// Teste 1 (a e b são negativos (b tem o sinal invertido)):
 	
 	//a   = FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
-	//b   = FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
-	//res = FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FE
+	//b   = FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF --> -b = 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
+	//res = 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 	
 	big_val(a, 0xFFFFFFFFFFFFFFFF);
 	big_val(b, 0xFFFFFFFFFFFFFFFF);
 	
 	big_sub(res, a, b);
 	
-	/*
+	printf("\tTeste 1: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
-	OBS: Acredito que esse teste seja desnecessário pois B ∈ [0, BIG_INT_MAX], e A ∈ [BIG_INT_MIN, -1], então A + B ∈ [BIG_INT_MIN, BIG_INT_MAX] (Pois A - B = B - A (já que B é negativo tem o sinal trocado) ).
-			 Ou seja, nunca resultaria em um número que não pode ser representado com um BigInt.
-			 
-	printf("\tTeste 1:  %s\n", memcmp(res, "\xfe\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
-	
-	// Teste 2 (a e b são negativos e a subtração da overflow):
+			 	
+	// Teste 2 (a e b são negativos e a subtração da 0):
 	
 	//a   = 80 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 	//b   = 80 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
