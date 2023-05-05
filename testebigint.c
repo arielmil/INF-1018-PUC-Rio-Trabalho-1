@@ -263,14 +263,15 @@ void testes_big_sum() {
 	
 	//a   = 03 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
 	//b   = FF FF FF FF FF FF FF FF 80 34 53 EF AB 45 65 41
-	//res = 01 03 34 53 EF AB 45 65 40 80 34 53 EF AB 45 65 41 ??
+	//res = 03 34 53 EF AB 45 65 40 80 34 53 EF AB 45 65 41
 	
+
+	big_val(a, 0x033453efab456541);
 	big_val(b, 0x803453efab456541);
-	big_val(a, 0x703453efab456541);
 	
 	big_sum(res, a, b);
 	
-	printf("\tTeste 4.1: %s\n", memcmp(res, "\x82\xca\x8a\x56\xdf\xa7\x68\xf0\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	printf("\tTeste 4.1: %s\n", memcmp(res, "\x41\x65\x45\xab\xef\x53\x34\x80\x40\x65\x45\xab\xef\x53\x34\x03", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
 	// Teste 5 (a e b são positivos e a soma não da overflow):
 	
@@ -301,12 +302,32 @@ void testes_big_sum() {
 	
 	// Teste 5.1 (a e b são positivos e a soma da overflow):
 	
-	big_val(b, 0x043453efab456541);
-	big_val(a, 0x703453efab456541);
+	b// Teste 5 (a e b são positivos e a soma não da overflow):
 	
+	//a   = 04 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
+	//b   = 04 43 AC D9 AC 15 65 48 00 00 00 00 00 00 00 00
+	//res = 08 78 00 C9 57 5A CA 89 00 00 00 00 00 00 00 00
+	
+  a[15] = 0X04, b[15] = 0X04;
+  a[14] = 0X34, b[14] = 0X43;
+  a[13] = 0X53, b[13] = 0XAC;
+  a[12] = 0XEF, b[12] = 0XD9;
+  a[11] = 0XAB, b[11] = 0XAC;
+  a[10] = 0X45, b[10] = 0X15;
+  a[9] = 0X65,  b[9] = 0X65;
+  a[8] = 0X41,  b[8] = 0X48;
+  a[7] = 0X00,  b[7] = 0X00;
+  a[6] = 0X00,  b[6] = 0X00;
+  a[5] = 0X00,  b[5] = 0X00;
+  a[4] = 0X00,  b[4] = 0X00;
+  a[3] = 0X00,  b[3] = 0X00;
+  a[2] = 0X00,  b[2] = 0X00;
+  a[1] = 0X00,  b[1] = 0X00;
+  a[0] = 0X00,  b[0] = 0X00;
+
 	big_sum(res, a, b);
 	
-	printf("\tTeste 5.1: %s\n", memcmp(res, "\x82\xca\x8a\x56\xdf\xa7\x68\xf0\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	printf("\tTeste 5.1: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x89\xca\x5a\x57\xc9\x00\x78\x08", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 }
 
 /* big_sub */
