@@ -193,14 +193,18 @@ void testes_big_sum() {
 	
 	// Teste 1 (a e b são negativos e a soma não da overflow):
 	
-	big_val(a, 0x8000000000000000);
-	big_val(b, 0x8000000000000001);
+	big_val(a, 0xFFFFFFFFFFFFFFFF);
+	big_val(b, 0xFFFFFFFFFFFFFFFF);
+	
 	big_sum(res, a, b);
+	
+	 printf("\tTeste 1: %s\n", memcmp(res, "\xfe\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
 	// Teste 2 (a e b são negativos e a soma da overflow):
 	
-	big_val(a, 0xFFFFFFFFFFFFFFFF);
-	big_val(b, 0xFFFFFFFFFFFFFFFF);
+	big_val(a, 0x8000000000000000);
+	big_val(b, 0x8000000000000001);
+	
 	big_sum(res, a, b);
 	
 	// Teste 3 (a é 0):
