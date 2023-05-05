@@ -128,6 +128,7 @@ Se o grupo for composto por alunos de turmas diferentes, os dois alunos deverão
 #include <stdio.h>
 #include <limits.h>
 #include <string.h>
+#include "bigint.h"
 
 /* big_val */
 void testes_big_val() {
@@ -190,17 +191,25 @@ void testes_big_sum() {
 	BigInt a;
 	BigInt b;
 	BigInt res;
-	
+		
 	// Teste 1 (a e b são negativos e a soma não da overflow):
+	
+	//a   = FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+	//b   = FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+	//res = FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FE
 	
 	big_val(a, 0xFFFFFFFFFFFFFFFF);
 	big_val(b, 0xFFFFFFFFFFFFFFFF);
 	
 	big_sum(res, a, b);
 	
-	printf("\tTeste 1: %s\n", memcmp(res, "\xfe\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	printf("\tTeste 1:  %s\n", memcmp(res, "\xfe\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
 	// Teste 2 (a e b são negativos e a soma da overflow):
+	
+	//a   = 80 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+	//b   = 80 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
+	//res = 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
 	
 	big_val(a, 0x8000000000000000);
 	big_val(b, 0x8000000000000001);
@@ -211,6 +220,10 @@ void testes_big_sum() {
 	
 	// Teste 3 (a é 0):
 	
+	//a   = 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+	//b   = 00 00 00 00 00 00 00 00 79 87 65 43 21 FE DC BA
+	//res = 00 00 00 00 00 00 00 00 79 87 65 43 21 FE DC BA
+	
 	big_val(a, 0x7987654321fedcba);
 	big_val(b, 0x0000000000000000);
 	
@@ -219,6 +232,10 @@ void testes_big_sum() {
 	printf("\tTeste 3: %s\n", memcmp(res, "\xba\xdc\xfe\x21\x43\x65\x87\x79\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
 	// Teste 3.1 (b é 0):
+	
+	//a   = 00 00 00 00 00 00 00 00 79 87 65 43 21 FE DC BA
+	//b   = 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+	//res = 00 00 00 00 00 00 00 00 79 87 65 43 21 FE DC BA
 	
 	big_val(a, 0x803453efab456541);
 	big_val(b, 0x0000000000000000);
@@ -229,15 +246,25 @@ void testes_big_sum() {
 	
 	// Teste 4 (a é negativo):
 	
+	//a   = FF FF FF FF FF FF FF FF 80 34 53 EF AB 45 65 41
+	//b   = 00 00 00 00 00 00 00 00 70 34 53 EF AB 45 65 41
+	//res = FF FF FF FF FF FF FF FF F0 68 A7 DF 56 8A CA 82
+	
 	big_val(a, 0x803453efab456541);
 	big_val(b, 0x703453efab456541);
 	
 	big_sum(res, a, b);
 	
 	printf("\tTeste 4: %s\n", memcmp(res, "\x82\xca\x8a\x56\xdf\xa7\x68\xf0\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
-		
+	
+	/* CONTINUAR A PARTIR DAQUI!! */
+	
 	// Teste 4.1 (b é negativo):
 	
+	//a   = 03 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
+	//b   = FF FF FF FF FF FF FF FF 80 34 53 EF AB 45 65 41
+	//res = 03 34 53 EF AB 45 65 T1 80 34 53 EF AB 45 65 41
+	//   01 03 34 53 EF AB 45 65 40 80 34 53 EF AB 45 65 41
 	big_val(b, 0x803453efab456541);
 	big_val(a, 0x703453efab456541);
 	
@@ -247,7 +274,39 @@ void testes_big_sum() {
 	
 	// Teste 5 (a e b são positivos e a soma não da overflow):
 	
+	//a   = 04 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
+	//b   = 03 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
+	//res = 07 68 A7 DF 56 8A CA 82 00 00 00 00 00 00 00 00
+	
+  a[15] = 0X04, b[15] = 0X03;
+  a[14] = 0X34, b[14] = 0X34;
+  a[13] = 0X53, b[13] = 0X53;
+  a[12] = 0XEF, b[12] = 0XEF;
+  a[11] = 0XAB, b[11] = 0XAB;
+  a[10] = 0X45, b[10] = 0X45;
+  a[9] = 0X65,  b[9] = 0X65;
+  a[8] = 0X41,  b[8] = 0X41;
+  a[7] = 0X00,  b[7] = 0X00;
+  a[6] = 0X00,  b[6] = 0X00;
+  a[5] = 0X00,  b[5] = 0X00;
+  a[4] = 0X00,  b[4] = 0X00;
+  a[3] = 0X00,  b[3] = 0X00;
+  a[2] = 0X00,  b[2] = 0X00;
+  a[1] = 0X00,  b[1] = 0X00;
+  a[0] = 0X00,  b[0] = 0X00;
+
+	big_sum(res, a, b);
+	
+	printf("\tTeste 5: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x82\xca\x8a\x56\xdf\xa7\x68\x07", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	
 	// Teste 5.1 (a e b são positivos e a soma da overflow):
+	
+	big_val(b, 0x043453efab456541);
+	big_val(a, 0x703453efab456541);
+	
+	big_sum(res, a, b);
+	
+	printf("\tTeste 5.1: %s\n", memcmp(res, "\x82\xca\x8a\x56\xdf\xa7\x68\xf0\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 }
 
 /* big_sub */
@@ -270,9 +329,9 @@ void testes_big_sub() {
 	
 	// Teste 4.1 (b é negativo):
 	
-	// Teste 5 (a e b são positivos e a soma não da overflow):
+	// Teste 5 (a e b são positivos e a subtração não da overflow):
 	
-	// Teste 5.1 (a e b são positivos e a soma da overflow):
+	// Teste 5.1 (a e b são positivos e a subtração da overflow):
 	
 }
 
