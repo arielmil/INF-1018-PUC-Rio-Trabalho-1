@@ -539,8 +539,11 @@ void testes_big_mul() {
 int main() {
     
     testes_big_val();
+    
     testes_big_comp2();
+    
     testes_big_sum();
+    
     testes_big_sub();
     
     return 0;
