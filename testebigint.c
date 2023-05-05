@@ -334,7 +334,7 @@ void testes_big_sub() {
 	BigInt b;
 	BigInt res;
 		
-	// Teste 1 (a e b são negativos e a subtração não da overflow):
+	// Teste 1 (a e b são negativos (b tem o sinal invertido)):
 	
 	//a   = FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
 	//b   = FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
@@ -343,8 +343,13 @@ void testes_big_sub() {
 	big_val(a, 0xFFFFFFFFFFFFFFFF);
 	big_val(b, 0xFFFFFFFFFFFFFFFF);
 	
-	big_sum(res, a, b);
+	big_sub(res, a, b);
 	
+	/*
+	
+	OBS: Acredito que esse teste seja desnecessário pois B ∈ [0, BIG_INT_MAX], e A ∈ [BIG_INT_MIN, -1], então A + B ∈ [BIG_INT_MIN, BIG_INT_MAX] (Pois A - B = B - A (já que B é negativo tem o sinal trocado) ).
+			 Ou seja, nunca resultaria em um número que não pode ser representado com um BigInt.
+			 
 	printf("\tTeste 1:  %s\n", memcmp(res, "\xfe\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
 	// Teste 2 (a e b são negativos e a subtração da overflow):
@@ -356,9 +361,12 @@ void testes_big_sub() {
 	big_val(a, 0x8000000000000000);
 	big_val(b, 0x8000000000000001);
 	
-	big_sum(res, a, b);
+	big_sub(res, a, b);
 	
+
 	printf("\tTeste 2: %s\n", memcmp(res, "\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	
+	*/
 	
 	// Teste 3 (a é 0):
 	
@@ -369,7 +377,7 @@ void testes_big_sub() {
 	big_val(a, 0x7987654321fedcba);
 	big_val(b, 0x0000000000000000);
 	
-	big_sum(res, a, b);
+	big_sub(res, a, b);
 	
 	printf("\tTeste 3: %s\n", memcmp(res, "\xba\xdc\xfe\x21\x43\x65\x87\x79\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
@@ -382,11 +390,11 @@ void testes_big_sub() {
 	big_val(a, 0x803453efab456541);
 	big_val(b, 0x0000000000000000);
 	
-	big_sum(res, a, b);
+	big_sub(res, a, b);
 	
 	printf("\tTeste 3.1: %s\n", memcmp(res, "\x41\x65\x45\xab\xef\x53\x34\x80\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
-	// Teste 4 (a é negativo):
+	// Teste 4 (a é negativo e a subtração da overflow):
 	
 	//a   = FF FF FF FF FF FF FF FF 80 34 53 EF AB 45 65 41
 	//b   = 00 00 00 00 00 00 00 00 70 34 53 EF AB 45 65 41
@@ -395,12 +403,24 @@ void testes_big_sub() {
 	big_val(a, 0x803453efab456541);
 	big_val(b, 0x703453efab456541);
 	
-	big_sum(res, a, b);
+	big_sub(res, a, b);
 	
 	printf("\tTeste 4: %s\n", memcmp(res, "\x82\xca\x8a\x56\xdf\xa7\x68\xf0\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
+	// Teste 4.1 (b é negativo e a subtração da overflow):
 	
-	// Teste 4.1 (b é negativo):
+	//a   = FF FF FF FF FF FF FF FF 80 34 53 EF AB 45 65 41
+	//b   = 00 00 00 00 00 00 00 00 70 34 53 EF AB 45 65 41
+	//res = FF FF FF FF FF FF FF FF F0 68 A7 DF 56 8A CA 82
+	
+	big_val(a, 0x803453efab456541);
+	big_val(b, 0x703453efab456541);
+	
+	big_sub(res, a, b);
+	
+	printf("\tTeste 4.1: %s\n", memcmp(res, "\x82\xca\x8a\x56\xdf\xa7\x68\xf0\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	
+	// Teste 4.2 (a é negativo e a subtração não da overflow):
 	
 	//a   = 03 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
 	//b   = FF FF FF FF FF FF FF FF 80 34 53 EF AB 45 65 41
@@ -410,11 +430,24 @@ void testes_big_sub() {
 	big_val(a, 0x033453efab456541);
 	big_val(b, 0x803453efab456541);
 	
-	big_sum(res, a, b);
+	big_sub(res, a, b);
 	
-	printf("\tTeste 4.1: %s\n", memcmp(res, "\x41\x65\x45\xab\xef\x53\x34\x80\x40\x65\x45\xab\xef\x53\x34\x03", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	printf("\tTeste 4.2: %s\n", memcmp(res, "\x41\x65\x45\xab\xef\x53\x34\x80\x40\x65\x45\xab\xef\x53\x34\x03", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
-	// Teste 5 (a e b são positivos e a subtração não da overflow):
+	// Teste 4.3 (b é negativo e a subtração não da overflow):
+	
+	//a   = FF FF FF FF FF FF FF FF 80 34 53 EF AB 45 65 41
+	//b   = 00 00 00 00 00 00 00 00 70 34 53 EF AB 45 65 41
+	//res = FF FF FF FF FF FF FF FF F0 68 A7 DF 56 8A CA 82
+	
+	big_val(a, 0x803453efab456541);
+	big_val(b, 0x703453efab456541);
+	
+	big_sub(res, a, b);
+	
+	printf("\tTeste 4.3: %s\n", memcmp(res, "\x82\xca\x8a\x56\xdf\xa7\x68\xf0\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	
+	// Teste 5 (a e b são positivos):
 	
 	//a   = 04 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
 	//b   = 03 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
@@ -437,9 +470,11 @@ void testes_big_sub() {
   a[1] = 0X00,  b[1] = 0X00;
   a[0] = 0X00,  b[0] = 0X00;
 
-	big_sum(res, a, b);
+	big_sub(res, a, b);
 	
 	printf("\tTeste 5: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x82\xca\x8a\x56\xdf\xa7\x68\x07", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	
+	/* OBS: Acredito que esse teste também seja desnecessário pelo mesmo motivo do teste 2.
 	
 	// Teste 5.1 (a e b são positivos e a subtração da overflow):
 		
@@ -464,9 +499,11 @@ void testes_big_sub() {
   a[1] = 0X00,  b[1] = 0X00;
   a[0] = 0X00,  b[0] = 0X00;
 
-	big_sum(res, a, b);
+	big_sub(res, a, b);
 	
 	printf("\tTeste 5.1: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x89\xca\x5a\x57\xc9\x00\x78\x08", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	
+	*/
 	
 }
 
@@ -503,6 +540,8 @@ int main() {
     
     testes_big_val();
     testes_big_comp2();
+    testes_big_sum();
+    testes_big_sub();
     
     return 0;
 }
