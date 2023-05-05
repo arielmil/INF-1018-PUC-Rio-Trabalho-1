@@ -263,8 +263,8 @@ void testes_big_sum() {
 	
 	//a   = 03 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
 	//b   = FF FF FF FF FF FF FF FF 80 34 53 EF AB 45 65 41
-	//res = 03 34 53 EF AB 45 65 T1 80 34 53 EF AB 45 65 41
-	//   01 03 34 53 EF AB 45 65 40 80 34 53 EF AB 45 65 41
+	//res = 01 03 34 53 EF AB 45 65 40 80 34 53 EF AB 45 65 41 ??
+	
 	big_val(b, 0x803453efab456541);
 	big_val(a, 0x703453efab456541);
 	
