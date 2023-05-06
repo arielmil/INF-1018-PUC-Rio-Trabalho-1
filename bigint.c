@@ -10,7 +10,6 @@ typedef unsigned char BigInt[NUM_BITS/8];
 
 
 // IMPLEMENTACAO DAS FUNCOES
-
 void big_val(BigInt res, long val) {
     int i;
     unsigned char *p = (unsigned char *) &val;
@@ -139,14 +138,40 @@ void big_comp2(BigInt res, BigInt a)
 }
 
 /* res = a + b */
-void big_sum (BigInt res, BigInt a, BigInt b)
+void big_sum(BigInt res, BigInt a, BigInt b)
 {
     int i;
+    BigInt a_comp2, b_comp2;
     unsigned char carry = 0;
+    unsigned char a_negative = a[NUM_BITS/8 - 1] & 0x80;
+    unsigned char b_negative = b[NUM_BITS/8 - 1] & 0x80;
+
+    if (a_negative) {
+        big_comp2(a_comp2, a);
+        a = a_comp2;
+    }
+
+    if (b_negative) {
+        big_comp2(b_comp2, b);
+        b = b_comp2;
+    }
+
     for (i = 0; i < NUM_BITS/8; i++) {
         unsigned short x = a[i] + b[i] + carry;
         res[i] = x;
         carry = (x >> 8);
+    }
+
+    if (a_negative ^ b_negative) {
+        if (carry) {
+            big_comp2(res, res);
+        } else {
+            // Verificar se o resultado deve ser negativo
+            unsigned char res_negative = res[NUM_BITS/8 - 1] & 0x80;
+            if (a_negative != res_negative) {
+                big_comp2(res, res);
+            }
+        }
     }
 }
 

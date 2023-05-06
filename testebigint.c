@@ -368,16 +368,8 @@ void testes_big_shl() {
     
       // Teste 1 (a == 0, n>0):
 
-    // big_print(a);
-
-    // big_shl_1(a);
-
     big_shl(res,a,0);
-    // big_print(a);
-    // // big_print(res);// 
-    // big_print("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
     
-
     printf("\tTeste 1: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
         
     big_val(a, 123456789);
@@ -386,21 +378,14 @@ void testes_big_shl() {
     
     big_shl(res, a, 0);
 
-    // big_print(a);
-    // big_print(res);
-    // big_print("\x15\xcd\x5b\x07\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
-    
+ 
     printf("\tTeste 2: %s\n", memcmp(res, "\x15\xcd\x5b\x07\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 
     // Teste 3 (a!=0, n=>0):
     big_val(a, 0x0FFFFFFFFFFFFFFF);
     
     big_shl(res, a, 4);
-
-    // big_print(a);
-    // big_print(res);
-    // big_print("\xf0\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00");
-
+    
     printf("\tTeste 3: %s\n", memcmp(res, "\xf0\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
         
 }
@@ -414,18 +399,10 @@ void testes_big_shr() {
     //caso a variavel a seja 0, resultado deve ser 0
     big_val(a, 0x0);
     
-      // Teste 1 (a == 0, n>0):
+     // Teste 1 (a == 0, n>0):
 
-    // big_print(a);
-
-    // big_shr_1(a);
 
     big_shr(res,a,0);
-
-    // big_print(a);
-    // big_print(res);
-    // big_print("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
-    
 
     printf("\tTeste 1: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
         
@@ -435,10 +412,6 @@ void testes_big_shr() {
     
     big_shr(res, a, 0);
 
-    // big_print(a);
-    // big_print(res);
-    // big_print("\x15\xcd\x5b\x07\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
-    //
     printf("\tTeste 2: %s\n", memcmp(res, "\x15\xcd\x5b\x07\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 
     // Teste 3 (a!=0, n=>0):
@@ -468,16 +441,7 @@ void testes_big_sar() {
     
       // Teste 1 (a == 0, n>0):
 
-    // big_print(a);
-
-    // big_shr_1(a);
-
     big_sar(res,a,0);
-
-    // big_print(a);
-    // big_print(res);
-    // big_print("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
-    
 
     printf("\tTeste 1: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
         
@@ -487,10 +451,6 @@ void testes_big_sar() {
     
     big_sar(res, a, 0);
 
-    // big_print(a);
-    // big_print(res);
-    // big_print("\x15\xcd\x5b\x07\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
-    
     printf("\tTeste 2: %s\n", memcmp(res, "\x15\xcd\x5b\x07\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 
     // Teste 3 (a!=0, n=>0):
@@ -498,20 +458,12 @@ void testes_big_sar() {
     
     big_sar(res, a, 4);
 
-    // big_print(a);
-    // big_print(res);
-    // big_print("\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00");
-
     printf("\tTeste 3: %s\n", memcmp(res, "\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
       
     // Teste 4 (a==valor max, n=>0):
     big_val(a, 0xFFFFFFFFFFFFFFFF);
     
     big_sar(res, a, 4);
-
-    // big_print(a);
-    // big_print(res);
-    // big_print("\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff");
 
     printf("\tTeste 4: %s\n", memcmp(res, "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
     
