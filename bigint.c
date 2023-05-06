@@ -141,45 +141,23 @@ void big_comp2(BigInt res, BigInt a)
 void big_sum(BigInt res, BigInt a, BigInt b)
 {
     int i;
-    unsigned short carry = 0;
-    unsigned short borrow = 0;
-    unsigned char a_negative = a[NUM_BITS/8 - 1] & 0x80;
-    unsigned char b_negative = b[NUM_BITS/8 - 1] & 0x80;
+    __int128_t a_signed = 0;
+    __int128_t b_signed = 0;
+    __int128_t res_signed;
 
-    if (a_negative) {
-        if (b_negative) {
-            for (i = 0; i < NUM_BITS/8; i++) {
-                unsigned short x = a[i] + b[i] + carry;
-                res[i] = x;
-                carry = (x >> 8);
-            }
-        } else {
-            for (i = 0; i < NUM_BITS/8; i++) {
-                unsigned short x = (unsigned short)a[i] - (unsigned short)b[i] - borrow;
-                res[i] = x;
-                borrow = (x >> 15) & 0x1;
-            }
-            if (borrow) {
-                big_comp2(res, res);
-            }
-        }
-    } else {
-        if (b_negative) {
-            for (i = 0; i < NUM_BITS/8; i++) {
-                unsigned short x = (unsigned short)a[i] - (unsigned short)b[i] - borrow;
-                res[i] = x;
-                borrow = (x >> 15) & 0x1;
-            }
-            if (borrow) {
-                big_comp2(res, res);
-            }
-        } else {
-            for (i = 0; i < NUM_BITS/8; i++) {
-                unsigned short x = a[i] + b[i] + carry;
-                res[i] = x;
-                carry = (x >> 8);
-            }
-        }
+    // Converter BigInt a e b para int128_t com sinal
+    for (i = NUM_BITS/8 - 1; i >= 0; i--) {
+        a_signed = (a_signed << 8) | a[i];
+        b_signed = (b_signed << 8) | b[i];
+    }
+
+    // Realizar a soma
+    res_signed = a_signed + b_signed;
+
+    // Converter int128_t com sinal de volta para BigInt
+    for (i = 0; i < NUM_BITS/8; i++) {
+        res[i] = (unsigned char)(res_signed & 0xFF);
+        res_signed >>= 8;
     }
 }
 

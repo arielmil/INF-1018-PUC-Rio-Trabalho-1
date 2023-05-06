@@ -91,7 +91,7 @@ void testes_big_sum() {
 	
 	//a   = 80 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 	//b   = 80 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
-	//res = 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
+	//res = FF FF FF FF FF FF FF FF 00 00 00 00 00 00 00 01
 	
 	
 	big_val(a, 0x8000000000000000);
@@ -99,19 +99,7 @@ void testes_big_sum() {
 	
 	big_sum(res, a, b);
 	
-	printf("\nprintando a:\n");
-	big_print(a);
-	
-	printf("\nprintando b:\n");
-	big_print(b);
-	
-	printf("\nprintando res:\n");
-	big_print(res);
-	
-	printf("\nprintando resultado esperado:\n");
-	big_print("\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
-	
-	printf("\t\nTeste 2: %s\n", memcmp(res, "\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	printf("\t\nTeste 2: %s\n", memcmp(res, "\x01\x00\x00\x00\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
 	// Teste 3 (a é 0):
 	
@@ -161,6 +149,18 @@ void testes_big_sum() {
 
 	big_val(a, 0x033453efab456541);
 	big_val(b, 0x803453efab456541);
+	
+	printf("\nprintando a:\n");
+	big_print(a);
+	
+	printf("\nprintando b:\n");
+	big_print(b);
+	
+	printf("\nprintando res:\n");
+	big_print(res);
+	
+	printf("\nprintando resultado esperado:\n");
+	big_print("\x41\x65\x45\xab\xef\x53\x34\x80\x40\x65\x45\xab\xef\x53\x34\x03");
 	
 	big_sum(res, a, b);
 	
