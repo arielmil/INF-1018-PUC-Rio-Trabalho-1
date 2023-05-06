@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include <string.h>
+#include <stdint.h>
 
 #define NUM_BITS 128
 typedef unsigned char BigInt[NUM_BITS/8];
@@ -141,23 +142,13 @@ void big_comp2(BigInt res, BigInt a)
 void big_sum(BigInt res, BigInt a, BigInt b)
 {
     int i;
-    __int128_t a_signed = 0;
-    __int128_t b_signed = 0;
-    __int128_t res_signed;
+    uint64_t carry = 0;
+    uint64_t sum;
 
-    // Converter BigInt a e b para int128_t com sinal
-    for (i = NUM_BITS/8 - 1; i >= 0; i--) {
-        a_signed = (a_signed << 8) | a[i];
-        b_signed = (b_signed << 8) | b[i];
-    }
-
-    // Realizar a soma
-    res_signed = a_signed + b_signed;
-
-    // Converter int128_t com sinal de volta para BigInt
     for (i = 0; i < NUM_BITS/8; i++) {
-        res[i] = (unsigned char)(res_signed & 0xFF);
-        res_signed >>= 8;
+        sum = ((uint64_t)a[i]) + ((uint64_t)b[i]) + carry;
+        res[i] = (unsigned char)(sum & 0xFF);
+        carry = sum >> 8;
     }
 }
 
