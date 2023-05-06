@@ -110,7 +110,7 @@ void testes_big_sum() {
 	printf("\nprintando resultado esperado:\n");
 	big_print("\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
 	
-	printf("\tTeste 2: %s\n", memcmp(res, "\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	printf("\t\nTeste 2: %s\n", memcmp(res, "\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
 	// Teste 3 (a é 0):
 	
