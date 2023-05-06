@@ -10,6 +10,7 @@ typedef unsigned char BigInt[NUM_BITS/8];
 
 
 // IMPLEMENTACAO DAS FUNCOES
+
 void big_val(BigInt res, long val) {
     int i;
     unsigned char *p = (unsigned char *) &val;
