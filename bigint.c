@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <limits.h>
 #include <string.h>
-#include <stdint.h>
 
 #define NUM_BITS 128
 typedef unsigned char BigInt[NUM_BITS/8];
@@ -22,7 +21,7 @@ void big_val(BigInt res, long val) {
 void big_print(BigInt a) {
     int i;
     for (i = NUM_BITS/8-1; i >= 0; i--)
-        printf("%02X", a[i]);
+        printf("%02X ", a[i]);
     printf("\n");
 }
 
@@ -138,18 +137,39 @@ void big_comp2(BigInt res, BigInt a)
     }
 }
 
-/* res = a + b */
-void big_sum(BigInt res, BigInt a, BigInt b)
-{
-    int i;
-    uint64_t carry = 0;
-    uint64_t sum;
+unsigned char byte_sum(unsigned char a, unsigned char b, unsigned char* carry) {
+    unsigned char result = a + b;
+    *carry = (result < a || result < b) ? 1 : 0;
+    
+    return result;
+}
 
-    for (i = 0; i < NUM_BITS/8; i++) {
-        sum = ((uint64_t)a[i]) + ((uint64_t)b[i]) + carry;
-        res[i] = (unsigned char)(sum & 0xFF);
-        carry = sum >> 8;
+void big_sum (BigInt res, BigInt a, BigInt b)
+{		
+		unsigned char ab, bb, resb, carry;
+		
+    int i;
+    
+  	big_val(res, 0);
+  	    
+    carry = 0;
+    for (i = 0; i < (NUM_BITS/8); i++) {
+    	ab = a[i];
+      bb = b[i];
+      
+      res[i] = res[i] + carry;
+      
+      resb = byte_sum(ab, bb, &carry);
+      
+      res[i] = res[i] + resb;
+      
+      /* caso estoure novamente */
+      if ((res[i] < resb) && i < 15) {
+      	carry = 1;
+      }
     }
+    
+    
 }
 
 /* res = a - b */

@@ -99,7 +99,7 @@ void testes_big_sum() {
 	
 	big_sum(res, a, b);
 	
-	printf("\t\nTeste 2: %s\n", memcmp(res, "\x01\x00\x00\x00\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	printf("\tTeste 2: %s\n", memcmp(res, "\x01\x00\x00\x00\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
 	// Teste 3 (a é 0):
 	
@@ -142,29 +142,16 @@ void testes_big_sum() {
 		
 	// Teste 4.1 (b é negativo):
 	
-	//a   = 03 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
+	//a   = 00 00 00 00 00 00 00 00 03 34 53 EF AB 45 65 41
 	//b   = FF FF FF FF FF FF FF FF 80 34 53 EF AB 45 65 41
-	//res = 03 34 53 EF AB 45 65 40 80 34 53 EF AB 45 65 41
-	
+	//res = FF FF FF FF FF FF FF FF 83 68 A7 DF 56 8A CA 82
 
 	big_val(a, 0x033453efab456541);
 	big_val(b, 0x803453efab456541);
-	
-	printf("\nprintando a:\n");
-	big_print(a);
-	
-	printf("\nprintando b:\n");
-	big_print(b);
-	
-	printf("\nprintando res:\n");
-	big_print(res);
-	
-	printf("\nprintando resultado esperado:\n");
-	big_print("\x41\x65\x45\xab\xef\x53\x34\x80\x40\x65\x45\xab\xef\x53\x34\x03");
-	
+
 	big_sum(res, a, b);
 	
-	printf("\tTeste 4.1: %s\n", memcmp(res, "\x41\x65\x45\xab\xef\x53\x34\x80\x40\x65\x45\xab\xef\x53\x34\x03", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
+	printf("\tTeste 4.1: %s\n", memcmp(res, "\x82\xca\x8a\x56\xdf\xa7\x68\x83\xff\xff\xff\xff\xff\xff\xff\xff", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
 	// Teste 5 (a e b são positivos e a soma não da overflow):
 	
@@ -198,7 +185,7 @@ void testes_big_sum() {
 	//a   = 04 34 53 EF AB 45 65 41 00 00 00 00 00 00 00 00
 	//b   = 04 43 AC D9 AC 15 65 48 00 00 00 00 00 00 00 00
 	//res = 08 78 00 C9 57 5A CA 89 00 00 00 00 00 00 00 00
-	
+
   a[15] = 0X04, b[15] = 0X04;
   a[14] = 0X34, b[14] = 0X43;
   a[13] = 0X53, b[13] = 0XAC;
@@ -217,7 +204,7 @@ void testes_big_sum() {
   a[0] = 0X00,  b[0] = 0X00;
 
 	big_sum(res, a, b);
-	
+		
 	printf("\tTeste 5.1: %s\n", memcmp(res, "\x00\x00\x00\x00\x00\x00\x00\x00\x89\xca\x5a\x57\xc9\x00\x78\x08", sizeof(BigInt)) == 0 ? "sucesso" : "falha");
 	
   // Teste 6 (a (positivo) + b (negativo) = 0):
@@ -490,6 +477,6 @@ int main() {
     testes_big_shr();
 
     testes_big_sar();
-    
+
     return 0;
 }
